@@ -25,4 +25,4 @@ More advances use cases that could be handled in the future:
   
 # Need More Help?
 
-Need more help getting your app ready for iOS 17+? That's what we do at [Lickability](https://lickability.com) – reach out to see how we can help!
+Need more help getting your app ready for iOS 17+? That's what we do at [Lickability](https://lickability.com) – reach out to see how we can be of service!
