@@ -147,6 +147,25 @@ final class ObservableConverterRewriter: SyntaxRewriter {
         return DeclSyntax(newNode)
     }
     
+    override func visit(_ node: FunctionCallExprSyntax) -> ExprSyntax {
+        guard var simpleTypeID = node.calledExpression.as(DeclReferenceExprSyntax.self) else { return super.visit(node) }
+        guard simpleTypeID.baseName.text == "StateObject" else { return super.visit(node) }
+        
+        let wrappedValueIndex = node.arguments.firstIndex { argument in
+            argument.label?.text == "wrappedValue"
+        }
+        
+        guard let wrappedValueIndex else { return super.visit(node) }
+        
+        simpleTypeID.baseName.tokenKind = .stringSegment("State")
+
+        var newNode = node
+        newNode.calledExpression = ExprSyntax(simpleTypeID)
+        newNode.arguments[wrappedValueIndex].label?.tokenKind = .stringSegment("initialValue")
+        
+        return ExprSyntax(newNode)
+    }
+    
     override func visit(_ node: AttributeSyntax) -> AttributeSyntax {
         guard let simpleTypeID = node.attributeName.as(IdentifierTypeSyntax.self) else { return super.visit(node) }
         
