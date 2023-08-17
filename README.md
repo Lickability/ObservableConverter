@@ -15,6 +15,71 @@ In Xcode, go to your project and choose Package Dependencies and hit the + butto
 
 As a command plgun, once ObservableConverter is installed it's as simple to use as right clicking on the target you want to convert in Xcode and choosing the _Convert Target to Use @Observable_ option in the menu!
 
+This repo also includes an example project using `ObservableObject` so you can see the conversion yourself. Open up the `xcodeproj` in the Examples folder and right click on the target to see it convert the existing code to use `@Observable`!
+
+Here's what some of the example code looks like before the conversion:
+```swift
+final class ViewModelTest: ObservableObject {
+    @Published var publishedProperty: String?
+}
+
+struct ContentView: View {
+    @StateObject private var viewModel = ViewModelTest()
+    @EnvironmentObject private var environmentModel: ViewModelTest
+    
+    var body: some View {
+        VStack {
+            ChildView(model: viewModel)
+                .environmentObject(environmentModel)
+        }
+        .padding()
+    }
+}
+
+struct ChildView: View {
+    @ObservedObject var model: ViewModelTest
+    
+    var body: some View {
+        Text(model.publishedProperty ?? "no value set")
+            .onTapGesture {
+                model.publishedProperty = "model value changed"
+            }
+    }
+}
+```
+
+And here's after 🎉:
+```swift
+@Observable
+final class ViewModelTest {
+    var publishedProperty: String?
+}
+
+struct ContentView: View {
+    @State private var viewModel = ViewModelTest()
+    @Environment(ViewModelTest.self) private var environmentModel 
+    
+    var body: some View {
+        VStack {
+            ChildView(model: viewModel)
+                .environment(environmentModel)
+        }
+        .padding()
+    }
+}
+
+struct ChildView: View {
+    var model: ViewModelTest
+    
+    var body: some View {
+        Text(model.publishedProperty ?? "no value set")
+            .onTapGesture {
+                model.publishedProperty = "model value changed"
+            }
+    }
+}
+```
+
 # Notes
 
 While this tool handles most common conversion instances, it is still in beta and may need some additional functionality. Please use under source control so that you can revert any changes that you don't like.
