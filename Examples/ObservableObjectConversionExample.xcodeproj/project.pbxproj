@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1229E25E2A8DCA45005B667F /* ObservableConverter in Frameworks */ = {isa = PBXBuildFile; productRef = 1229E25D2A8DCA45005B667F /* ObservableConverter */; };
 		12D2425E2A8DC872006772C6 /* ObservableObjectConversionExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D2425D2A8DC872006772C6 /* ObservableObjectConversionExampleApp.swift */; };
 		12D242602A8DC872006772C6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D2425F2A8DC872006772C6 /* ContentView.swift */; };
 		12D242622A8DC875006772C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12D242612A8DC875006772C6 /* Assets.xcassets */; };
@@ -27,7 +26,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1229E25E2A8DCA45005B667F /* ObservableConverter in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,7 +84,6 @@
 			);
 			name = ObservableObjectConversionExample;
 			packageProductDependencies = (
-				1229E25D2A8DCA45005B667F /* ObservableConverter */,
 			);
 			productName = ObservableObjectConversionExample;
 			productReference = 12D2425A2A8DC872006772C6 /* ObservableObjectConversionExample.app */;
@@ -357,13 +354,6 @@
 			relativePath = ..;
 		};
 /* End XCLocalSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		1229E25D2A8DCA45005B667F /* ObservableConverter */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ObservableConverter;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 12D242522A8DC872006772C6 /* Project object */;
 }
