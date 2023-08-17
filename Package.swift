@@ -6,10 +6,7 @@ import PackageDescription
 let package = Package(
     name: "ObservableObject to @Observable Converter",
     platforms: [
-        .iOS(.v17),
-        .macOS(.v14),
-        .watchOS(.v10),
-        .tvOS(.v17)
+        .macOS(.v12)
     ],
     products: [
         .executable(name: "ObservableConverter", targets: ["ObservableConverter"]),
