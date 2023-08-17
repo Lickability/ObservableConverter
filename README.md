@@ -90,4 +90,6 @@ More advanced use cases that could be handled in the future:
   
 # Need More Help?
 
+[![lickability-logo](https://github.com/Lickability/ObservableConverter/assets/25009/9d651cff-14da-48f3-9e16-78eb0e9260ab)](https://lickability.com)
+
 Need more help getting your app ready for iOS 17+? That's what we do at [Lickability](https://lickability.com) – reach out to see how we can be of service!
