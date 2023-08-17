@@ -1,5 +1,7 @@
 # ObservableConverter
 
+<img width="150" alt="Screenshot 2023-08-17 at 2 25 13 PM" src="https://github.com/Lickability/ObservableConverter/assets/25009/6066a2a5-86ef-4f83-b16e-7fba7f62c802">
+
 ObservableConverter from [Lickability](https://lickability.com) is a super simple plugin to convert your SwiftUI code using `ObservableObject` and related property wrappers and view modifiers to instead use Apple's new `@Observable` macro, [introduced](https://developer.apple.com/wwdc23/10149) at WWDC 2023 in iOS 17, macOS 14, watchOS 10, and tvOS 17.
 
 <img width="429" alt="Screenshot 2023-08-17 at 2 25 13 PM" src="https://github.com/Lickability/ObservableConverter/assets/25009/3bf5ee31-3d6b-4313-a988-d176c4fa31cb">
