@@ -14,8 +14,8 @@ struct ObservableConverterPlugin: CommandPlugin {
             guard let sourceFiles = target.sourceModule?.sourceFiles(withSuffix: ".swift") else { continue }
             let filePaths = sourceFiles.map { $0.path.string }
             
-            let sometoolExec = URL(fileURLWithPath: observableConverter.path.string)
-            let process = try Process.run(sometoolExec, arguments: filePaths)
+            let observableConverterURL = URL(fileURLWithPath: observableConverter.path.string)
+            let process = try Process.run(observableConverterURL, arguments: filePaths)
             process.waitUntilExit()
         }
     }
