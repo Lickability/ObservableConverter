@@ -33,13 +33,12 @@ extension ObservableConverterPlugin: XcodeCommandPlugin {
         let targets = targetNames.isEmpty ? context.xcodeProject.targets : context.xcodeProject.targets.filter { targetNames.contains($0.displayName) }
         
         for target in targets {
-            let observableConverterURL = URL(fileURLWithPath: observableConverter.path.string)
-            
             let filePaths: [String] = target.inputFiles.compactMap { file in
                 guard file.type == .source && file.path.extension == "swift" else { return nil }
                 return file.path.string
             }
             
+            let observableConverterURL = URL(fileURLWithPath: observableConverter.path.string)
             let process = try Process.run(observableConverterURL, arguments: filePaths)
             process.waitUntilExit()
         }
