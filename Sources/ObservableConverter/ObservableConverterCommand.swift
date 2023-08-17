@@ -1,17 +1,18 @@
 import Foundation
 import SwiftSyntax
 import SwiftParser
+import ArgumentParser
 
-// TODO: better command line argument parsing
 // TODO: Tests
-let filePaths = Array(CommandLine.arguments.dropFirst()) // the first argument seems to always be the current path
 
-try ObservableConverter.convertFilesAtPaths(filePaths)
-
-struct ObservableConverter {
-    static func convertFilesAtPaths(_ paths: [String]) throws {
-        try paths.forEach { path in
-            let fileURL = URL(fileURLWithPath: path)
+@main
+struct ObservableConverterCommand: ParsableCommand {
+    @Argument(help: "A list of file paths to convert those files to use @Observable.")
+    var filePaths: [String]
+    
+    func run() throws {
+        try filePaths.forEach { filePath in
+            let fileURL = URL(fileURLWithPath: filePath)
             let updatedTempFileURL = fileURL.appendingPathExtension("temp")
 
             let sourceFileContents = try String(contentsOf: fileURL, encoding: .utf8)
