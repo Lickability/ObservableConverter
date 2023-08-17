@@ -36,9 +36,9 @@ final class ObservableConverterRewriter: SyntaxRewriter {
         guard let inheritanceClause = node.inheritanceClause else { return super.visit(node) }
         
         // Detect ObservableObject inheritance
-        var inheretedTypeCollection = inheritanceClause.inheritedTypes
+        let inheretedTypeCollection = inheritanceClause.inheritedTypes
         
-        var filteredTypes = inheretedTypeCollection.filter { inheretedType in
+        let filteredTypes = inheretedTypeCollection.filter { inheretedType in
             guard let simpleTypeID = inheretedType.type.as(IdentifierTypeSyntax.self) else { return true }
             return simpleTypeID.name.text != "ObservableObject"
         }
@@ -55,7 +55,7 @@ final class ObservableConverterRewriter: SyntaxRewriter {
             newNode.classKeyword.leadingTrivia = .spaces(0)
         }
         
-        var observableIdentifier = IdentifierTypeSyntax(name: .stringSegment("Observable"))
+        let observableIdentifier = IdentifierTypeSyntax(name: .stringSegment("Observable"))
         var observableAttribute = AttributeSyntax(attributeName: observableIdentifier)
         observableAttribute.atSign = .atSignToken()
         observableAttribute.leadingTrivia = classLeadingTrivia
@@ -70,11 +70,11 @@ final class ObservableConverterRewriter: SyntaxRewriter {
         }
         
         // Loop over properties for an observable object and replace @Published annotations with nothing
-        var newMembers = newNode.memberBlock.members.map { member in
+        let newMembers = newNode.memberBlock.members.map { member in
             var newMember = member
             guard let variable = member.decl.as(VariableDeclSyntax.self) else { return member }
             
-            var newAttributes = variable.attributes.map { attribute in
+            let newAttributes = variable.attributes.map { attribute in
                 guard let customAttribute = attribute.as(AttributeSyntax.self) else { return attribute }
                 guard let simpleTypeID = customAttribute.attributeName.as(IdentifierTypeSyntax.self) else { return attribute }
                 guard simpleTypeID.name.text == "Published" else { return attribute }
@@ -138,8 +138,8 @@ final class ObservableConverterRewriter: SyntaxRewriter {
         newAttribute.rightParen = TokenSyntax(.rightParen, presence: .present)
         newAttribute.trailingTrivia = .space
         
-        var typeIdentifier = DeclReferenceExprSyntax(baseName: .stringSegment(variableTypeName))
-        var member = MemberAccessExprSyntax(base: typeIdentifier, period: .periodToken(), name: .stringSegment("self"))
+        let typeIdentifier = DeclReferenceExprSyntax(baseName: .stringSegment(variableTypeName))
+        let member = MemberAccessExprSyntax(base: typeIdentifier, period: .periodToken(), name: .stringSegment("self"))
         let labeledExpressions = LabeledExprListSyntax(arrayLiteral: LabeledExprSyntax(expression: member))
         newAttribute.arguments = AttributeSyntax.Arguments(labeledExpressions)
         newNode.attributes[environmentObjectAttributeIndex] = AttributeListSyntax.Element(newAttribute)
