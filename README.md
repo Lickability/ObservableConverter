@@ -13,7 +13,7 @@ In Xcode, go to your project and choose Package Dependencies and hit the + butto
 
 # Usage
 
-As a command plgun, once ObservableConverter is installed it's as simple to use as right clicking on the target you want to convert in Xcode and choosing the _Convert Target to Use @Observable_ option in the menu!
+As a command plugin, once ObservableConverter is installed it's as simple to use as right clicking on the target you want to convert in Xcode and choosing the _Convert Target to Use @Observable_ option in the menu!
 
 This repo also includes an example project using `ObservableObject` so you can see the conversion yourself. Open up the `xcodeproj` in the Examples folder and right click on the target to see it convert the existing code to use `@Observable`!
 
