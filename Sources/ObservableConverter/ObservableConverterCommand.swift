@@ -17,7 +17,10 @@ struct ObservableConverterCommand: ParsableCommand {
 
             let sourceFileContents = try String(contentsOf: fileURL, encoding: .utf8)
             let sourceFileSyntax = Parser.parse(source: sourceFileContents)
-            let observableConverted = ObservableConverterRewriter().visit(sourceFileSyntax)
+            
+            let recorder = ObservableObjectRecorder(viewMode: .all)
+            recorder.walk(sourceFileSyntax)
+            let observableConverted = ObservableConverterRewriter(knownClassNames: recorder.observableObjectClassNames).visit(sourceFileSyntax)
 
             try "".write(to: updatedTempFileURL, atomically: true, encoding: .utf8)
             let fileHandle = try FileHandle(forWritingTo: updatedTempFileURL)
@@ -30,7 +33,65 @@ struct ObservableConverterCommand: ParsableCommand {
     }
 }
 
+final class ObservableObjectRecorder: SyntaxVisitor {
+    private(set) var observableObjectClassNames: Set<String> = []
+    
+    override func visit(_ node: StructDeclSyntax) -> SyntaxVisitorContinueKind {
+        let possibleObservableObjectTypes: [String] = node.memberBlock.members.compactMap { member in
+            guard let variable = member.decl.as(VariableDeclSyntax.self) else { return nil }
+            
+            let isObservableVariable = variable.attributes.contains { attribute in
+                guard let simpleTypeID = attribute.as(AttributeSyntax.self)?.attributeName.as(IdentifierTypeSyntax.self) else { return false }
+                return ["StateObject", "EnvironmentObject", "ObservedObject"].contains(simpleTypeID.name.text)
+            }
+            
+            guard isObservableVariable else { return nil }
+            
+            let typeNames = variable.bindings.compactMap { binding in
+                // If declared as @EnvironmentObject private var property: TypeName
+                if let typeAnnotation = binding.typeAnnotation, 
+                    let identifier = typeAnnotation.type.as(IdentifierTypeSyntax.self) {
+                    return identifier.name.text
+                    
+                // Else if declared as @StateObject private var property = TypeName()
+                } else if let initialiazer = binding.initializer,
+                            let functionCall = initialiazer.value.as(FunctionCallExprSyntax.self),
+                          let identifier = functionCall.calledExpression.as(DeclReferenceExprSyntax.self) {
+                    return identifier.baseName.text
+                }
+                
+                return nil
+            }
+            
+            return typeNames.first
+        }
+        
+        guard !possibleObservableObjectTypes.isEmpty else { return .skipChildren }
+        
+        let genericTypeNames = node.genericParameterClause?.parameters.map { genericParameter in
+            return genericParameter.name.text
+        } ?? []
+        
+        possibleObservableObjectTypes.forEach { possibleTypeName in
+            if genericTypeNames.contains(possibleTypeName) {
+                // TODO: handle going up the tree to find the type being passed
+                print("BOC: Generic found for type name: \(possibleTypeName)")
+            } else {
+                observableObjectClassNames.insert(possibleTypeName)
+            }
+        }
+        
+        return .skipChildren
+    }
+}
+
 final class ObservableConverterRewriter: SyntaxRewriter {
+    private let knownClassNames: Set<String>
+    
+    init(knownClassNames: Set<String>) {
+        self.knownClassNames = knownClassNames
+    }
+    
     override func visit(_ node: ClassDeclSyntax) -> DeclSyntax {
         var newNode = node
         guard let inheritanceClause = node.inheritanceClause else { return super.visit(node) }
@@ -42,10 +103,10 @@ final class ObservableConverterRewriter: SyntaxRewriter {
             guard let simpleTypeID = inheretedType.type.as(IdentifierTypeSyntax.self) else { return true }
             return simpleTypeID.name.text != "ObservableObject"
         }
-        
-        let isObservableObject = filteredTypes.count < inheretedTypeCollection.count
+
+        let isObservableObject = filteredTypes.count < inheretedTypeCollection.count || knownClassNames.contains(node.name.text)
         guard isObservableObject else { return super.visit(node) }
-        
+
         // Add @Observable, preserving leading whitespace from either the leading modifiers or class
         let classLeadingTrivia = node.modifiers.first?.leadingTrivia ?? node.classKeyword.leadingTrivia
         

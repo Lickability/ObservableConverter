@@ -13,7 +13,7 @@ struct ObservableObjectConversionExampleApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(observed: ContentStore())
                 .environmentObject(test)
         }
     }
