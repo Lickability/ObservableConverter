@@ -82,7 +82,7 @@ final class ObservableConverterRewriter: SyntaxRewriter {
         
         newNode.memberBlock.members = MemberBlockItemListSyntax(newMembers)
 
-        return DeclSyntax(newNode)
+        return super.visit(newNode)
     }
     
     // Search for and update @EnvironmentObject to @Environment
@@ -129,7 +129,7 @@ final class ObservableConverterRewriter: SyntaxRewriter {
         newAttribute.arguments = AttributeSyntax.Arguments(labeledExpressions)
         newNode.attributes[environmentObjectAttributeIndex] = AttributeListSyntax.Element(newAttribute)
         
-        return DeclSyntax(newNode)
+        return super.visit(newNode)
     }
     
     override func visit(_ node: FunctionCallExprSyntax) -> ExprSyntax {
@@ -148,7 +148,7 @@ final class ObservableConverterRewriter: SyntaxRewriter {
         newNode.calledExpression = ExprSyntax(simpleTypeID)
         newNode.arguments[wrappedValueIndex].label?.tokenKind = .stringSegment("initialValue")
         
-        return ExprSyntax(newNode)
+        return super.visit(newNode)
     }
     
     override func visit(_ node: AttributeSyntax) -> AttributeSyntax {
@@ -167,7 +167,7 @@ final class ObservableConverterRewriter: SyntaxRewriter {
             newNode.trailingTrivia = .spaces(0)
         }
         
-        return newNode
+        return super.visit(newNode)
     }
     
     override func visit(_ node: MemberAccessExprSyntax) -> ExprSyntax {
@@ -176,6 +176,6 @@ final class ObservableConverterRewriter: SyntaxRewriter {
         
         var newNode = node
         newNode.declName.baseName = .stringSegment("environment")
-        return ExprSyntax(newNode)
+        return super.visit(newNode)
     }
 }
