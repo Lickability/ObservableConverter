@@ -87,6 +87,7 @@ While this tool handles basic conversion instances, it is still very much in bet
 
 More advanced use cases that could be handled in the future:
 * Optionally converting lazy properties to `@ObservationIgnored`
+* Converting `onReceive` usage for converted `@Published` properties.
 * Better handling of Combine within `ObservableObject` classes, such as converting the `assign(to published:)` operator and handling `@Published` property observation.
 * Scanning for binding use cases of `@EnvironmentObject` and applying `@Bindable` in line when necessary.
   
