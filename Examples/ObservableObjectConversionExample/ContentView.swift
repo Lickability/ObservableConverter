@@ -11,10 +11,17 @@ final class ViewModelTest: ObservableObject {
     @Published var publishedProperty: String?
 }
 
+protocol ViewStore: ObservableObject {}
+
+final class ContentStore: ViewStore {
+    @Published var state: String?
+}
+
 struct ContentView: View {
     @StateObject private var viewModel = ViewModelTest()
     @EnvironmentObject private var environmentModel: ViewModelTest
-    
+    @ObservedObject var observed: ContentStore
+
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -42,5 +49,5 @@ struct ChildView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(observed: ContentStore())
 }
