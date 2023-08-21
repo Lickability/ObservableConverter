@@ -77,7 +77,6 @@ final class ObservableObjectRecorder: SyntaxVisitor {
         possibleObservableObjectTypes.forEach { possibleTypeName in
             if genericTypeNames.contains(possibleTypeName) {
                 // TODO: handle going up the tree to find the type being passed
-                print("BOC: Generic found for type name: \(possibleTypeName)")
             } else {
                 observableObjectClassNames.insert(possibleTypeName)
             }
