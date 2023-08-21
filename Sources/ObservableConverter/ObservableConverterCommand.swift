@@ -33,6 +33,8 @@ struct ObservableConverterCommand: ParsableCommand {
     }
 }
 
+/// A `SyntaxVisitor` that records classes names that are known to be `ObservableObject` classes based on their usage.
+/// This allows us to convert classes even if their inhereitence of `ObservableObject` is indirect.
 final class ObservableObjectRecorder: SyntaxVisitor {
     private(set) var observableObjectClassNames: Set<String> = []
     
@@ -85,6 +87,7 @@ final class ObservableObjectRecorder: SyntaxVisitor {
     }
 }
 
+/// A `SyntaxRewriter` that converts known usage of `ObservableObject` APIs to newer `@Observable` ones.
 final class ObservableConverterRewriter: SyntaxRewriter {
     private let knownClassNames: Set<String>
     
