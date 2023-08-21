@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Combine
 
 final class ViewModelTest: ObservableObject {
     @Published var publishedProperty: String?
