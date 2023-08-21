@@ -1,7 +1,7 @@
 <img width="512" alt="ObservableConverter" src="https://github.com/Lickability/ObservableConverter/assets/25009/ac0d3112-1d01-47df-a561-6c1dbec1c771">
 <br /><br />
 
-**ObservableConverter** from [Lickability](https://lickability.com) is a super simple plugin to convert your SwiftUI code using `ObservableObject` and related property wrappers and view modifiers to instead use Apple's new `@Observable` macro, [introduced](https://developer.apple.com/wwdc23/10149) at WWDC 2023 in iOS 17, macOS 14, watchOS 10, and tvOS 17.
+**ObservableConverter** from [Lickability](https://lickability.com) is a basic plugin to help convert your SwiftUI code using `ObservableObject` and related property wrappers and view modifiers to instead use Apple's new `@Observable` macro, [introduced](https://developer.apple.com/wwdc23/10149) at WWDC 2023 in iOS 17, macOS 14, watchOS 10, and tvOS 17.
 
 <img width="429" alt="A screenshot of the menu you see when right-clicking a target, with the ObservableConverter plugin option highlighted" src="https://github.com/Lickability/ObservableConverter/assets/25009/3bf5ee31-3d6b-4313-a988-d176c4fa31cb">
 
@@ -83,10 +83,11 @@ struct ChildView: View {
 
 # Notes
 
-While this tool handles most common conversion instances, it is still in beta and may need some additional functionality. Please use under source control so that you can revert any changes that you don't like.
+While this tool handles basic conversion instances, it is still very much in beta and will need some additional functionality. Please use under source control so that you can revert any changes that you don't like.
 
 More advanced use cases that could be handled in the future:
-* Converting the `assign(to published:)` operator in Combine to a different one.
+* Optionally converting lazy properties to `@ObservationIgnored`
+* Better handling of Combine within `ObservableObject` classes, such as converting the `assign(to published:)` operator and handling `@Published` property observation.
 * Scanning for binding use cases of `@EnvironmentObject` and applying `@Bindable` in line when necessary.
   
 # Need More Help?
