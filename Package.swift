@@ -30,6 +30,12 @@ let package = Package(
                 .product(name: "SwiftParser", package: "swift-syntax"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser")
             ]),
+        .testTarget(name: "ObservableConverterTests",
+                    dependencies: ["ObservableConverter"],
+                    resources: [
+                        .copy("Resources")
+                    ]
+                   ),
         .plugin(
             name: "Convert Target to Use @Observable",
             capability: .command(
