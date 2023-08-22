@@ -3,8 +3,6 @@ import SwiftSyntax
 import SwiftParser
 import ArgumentParser
 
-// TODO: Tests
-
 @main
 struct ObservableConverterCommand: ParsableCommand {
     @Argument(help: "A list of file paths to convert those files to use @Observable.")
