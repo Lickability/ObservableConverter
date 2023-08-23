@@ -8,7 +8,7 @@
 
 # Installation
 
-ObservableConverter is a Swift Package Manager command plugin, so installation is only available through SPM on Xcode 15 beta 6 and later. 
+ObservableConverter is a Swift Package Manager command plugin, so installation is only available through SPM on Xcode 15 beta 7 and later. 
 
 In Xcode, go to File and select Add Package Dependencies. Paste the URL of this repo into the search bar and select it. When it asks what framework to embed in your target, select None, as this tool is purely for code conversion purposes and should not be built as part of your app.
 
